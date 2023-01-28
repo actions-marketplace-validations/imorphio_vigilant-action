@@ -1,105 +1,13 @@
-name: 'Imorph vigilant build'
-description: 'Github action to deploy site to imorph'
-author: 'Anurag Kumar <anurag@imorph.io>'
+name: "Imorph vigilant build"
+description: "Github action to deploy site to imorph"
+author: "Anurag Kumar <anurag@imorph.io>"
 inputs:
-  valueFile:
+  imorphSecret:
     required: false
-    description: 'YAML file which should be updated'
-  propertyPath:
+    description: "Secret key to publish on imorph"
+  buildDir:
     required: false
-    description: 'Property Path - valid jsonPath expression'
-  value:
-    required: false
-    description: 'New property value'
-  noCompatMode:
-    required: false
-    description: 'Removes quotes from reserved words, like Y, N, yes, no, on, etc.'
-    default: 'false'
-  format:
-    required: false
-    description: 'Supported file formats, possible values are YAML and JSON, will be guessed by file extension if not provided. Falls back to YAML'
-  method:
-    required: false
-    description: 'Configures the processing of none existing properties. Possible values: CreateOrUpdate, Update, Create'
-  changes:
-    required: false
-    description: 'Map of changes for a single or multiple files as JSON. Supports following formats: { "filepath": {"propertyPath": "value"}} or {"propertyPath": "value"}. If filepath is not provided it fallsback to the path configured under valueFile.'
-  branch:
-    required: false
-    description: 'Branch to commit the change, will be created if not exist'
-    default: 'master'
-  masterBranchName:
-    required: false
-    description: 'Branch name of your master'
-    default: 'master'
-  targetBranch:
-    required: false
-    description: 'Target Branch for the created PullRequest'
-    default: master
-  githubAPI:
-    required: false
-    description: 'GitHub BaseURL'
-    default: https://api.github.com
-  createPR:
-    required: false
-    description: 'Create a PullRequest to the configured target branch'
-    default: 'false'
-  commitChange:
-    required: false
-    description: 'Commit the change "branch" with the given "message"'
-    default: 'true'
-  updateFile:
-    required: false
-    description: 'Update the original File in your workflow'
-    default: 'false'
-  message:
-    required: false
-    description: 'Commit message for the value update'
-    default: ''
-  title:
-    required: false
-    description: 'Title of the created pull request'
-    default: ''
-  description:
-    required: false
-    description: 'Description of the created pull request'
-    default: ''
-  labels:
-    required: false
-    description: 'Comma separated list of custom PR labels, e.g. "feature,yaml-updates"'
-    default: 'yaml-updates'
-  token:
-    required: false
-    description: 'GitHub AuthToken for Authorization'
-    default: ${{ github.token }}
-  repository:
-    required: false
-    description: 'repository to update'
-    default: ${{ github.repository }}
-  workDir:
-    required: false
-    description: 'repository workspace location'
-    default: .
-  commitUserName:
-    description: Name used for the commit user
-    required: false
-    default: GitHub Actions
-  commitUserEmail:
-    description: Email address used for the commit user
-    required: false
-    default: actions@github.com
-  reviewers:
-    description: List of reviewers for the created Pull Request, if enabled
-    required: false
-    default: ''
-  teamReviewers:
-    description: List of team reviewers for the created Pull Request, if enabled
-    required: false
-    default: ''
-  assignees:
-    description: List of assignees for the created Pull Request, if enabled
-    required: false
-    default: ''
+    description: "Build dir to publish on imorph"
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"
