@@ -2,12 +2,11 @@ name: "Imorph vigilant build"
 description: "Github action to deploy site to imorph"
 author: "Anurag Kumar <anurag@imorph.io>"
 inputs:
-  imorphSecret:
-    required: false
-    description: "Secret key to publish on imorph"
   buildDir:
     required: false
     description: "Build dir to publish on imorph"
 runs:
   using: "node16"
+  pre: "dist/index.js"
   main: "dist/index.js"
+  post: "dist/index.js"

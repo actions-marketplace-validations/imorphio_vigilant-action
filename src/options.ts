@@ -1,23 +1,19 @@
 import * as core from "@actions/core";
 import * as process from "process";
+import { resolve } from "path";
 
-export interface Options {
-  buildDir: string;
-  imorphSecret?: string;
-}
-
-export class GitHubOptions implements Options {
+export class GitHubOptions {
   get buildDir(): string {
-    return core.getInput("buildDir");
+    return process.cwd() + (core.getInput("buildDir") || "/dist");
   }
 }
 
-export class EnvOptions implements Options {
+export class EnvOptions {
   get imorphSecret(): string {
     return process.env.IMORPH_SECRET || "";
   }
 
-  get buildDir(): string {
-    return process.env.IMORPH_BUILD_DIR || "";
+  get imorphDomain(): string {
+    return process.env.IMORPH_DOMAIN || "";
   }
 }
