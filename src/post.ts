@@ -1,2 +1,4 @@
-console.log(process.env);
-console.log("Post work");
+import { post } from "./action";
+import { GitHubOptions } from "./options";
+
+post(new GitHubOptions());

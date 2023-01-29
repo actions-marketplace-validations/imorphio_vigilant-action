@@ -1,6 +1,5 @@
 import * as core from "@actions/core";
 import * as process from "process";
-import { resolve } from "path";
 
 export class GitHubOptions {
   get buildDir(): string {
@@ -14,14 +13,24 @@ export class GitHubOptions {
   get imorphDomain(): string {
     return core.getInput("imorphDomain");
   }
-}
 
-export class EnvOptions {
-  get imorphSecret(): string {
-    return process.env.IMORPH_SECRET || "";
+  get githubRepo(): string {
+    return process.env.GITHUB_REPOSITORY || "";
   }
 
-  get imorphDomain(): string {
-    return process.env.IMORPH_DOMAIN || "";
+  get githubRef(): string {
+    return process.env.GITHUB_REF_NAME || "";
+  }
+
+  get githubEvent(): string {
+    return process.env.GITHUB_EVENT_NAME || "";
+  }
+
+  get githubSha(): string {
+    return process.env.GITHUB_SHA || "";
+  }
+
+  get githubRunId(): string {
+    return process.env.GITHUB_RUN_ID || "";
   }
 }

@@ -1,2 +1,4 @@
-console.log(process.env);
-console.log("pre work");
+import { pre } from "./action";
+import { GitHubOptions } from "./options";
+
+pre(new GitHubOptions());
