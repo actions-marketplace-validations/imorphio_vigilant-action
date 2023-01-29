@@ -9,11 +9,9 @@ inputs:
   imorphSecret:
     required: false
     description: "Imorph secret"
-    default: ${{ secrets.IMORPH_SECRET }}
   imorphDomain:
     required: false
     description: "Imorph domain"
-    default: ${{ secrets.IMORPH_DOMAIN }}
 runs:
   using: "node16"
   pre: "lib/pre.js"
