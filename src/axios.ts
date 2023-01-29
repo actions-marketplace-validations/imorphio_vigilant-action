@@ -26,12 +26,10 @@ export class ImorphClient {
     return data;
   }
 
-  async status(id: string) {
+  async status(id: string, action: string, status: string) {
     const { imorphDomain } = this.options;
     const url = `/status`;
     const buildId = `${imorphDomain}/${id}`;
-    const action = "AUTO_PUBLISH";
-    const status = "SUCCESS";
     const { data } = await this.axios.post(url, { buildId, action, status });
     return data;
   }

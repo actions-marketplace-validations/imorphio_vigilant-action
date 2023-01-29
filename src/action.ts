@@ -21,6 +21,8 @@ export async function pre(options: GitHubOptions): Promise<void> {
 }
 
 export async function main(options: GitHubOptions): Promise<void> {
+  const imorphClient = new ImorphClient(options);
+  const id = core.getState("APP_BUILD_ID");
   try {
     core.info("Imorph main build setup...");
   } catch (err) {
@@ -29,10 +31,13 @@ export async function main(options: GitHubOptions): Promise<void> {
     } else {
       core.setFailed("Something went wrong");
     }
+    await imorphClient.status(id, "UPDATE_BUILD_JOB", "FAILED");
   }
 }
 
 export async function post(options: GitHubOptions): Promise<void> {
+  const imorphClient = new ImorphClient(options);
+  const id = core.getState("APP_BUILD_ID");
   try {
     core.info("Imorph post build setup...");
     const buildDir = options.buildDir;
@@ -51,9 +56,7 @@ export async function post(options: GitHubOptions): Promise<void> {
 
     const archiver = new Archiver(buildDir);
     const output = await archiver.start();
-    const imorphClient = new ImorphClient(options);
-    const id = core.getState("APP_BUILD_ID");
-    const data = await imorphClient.status(id);
+    const data = await imorphClient.status(id, "AUTO_PUBLISH", "SUCCESS");
     if (data === "TRUE") {
       const { size } = statSync(output);
       const { url, fields } = await imorphClient.uploadSigned(id, size);
@@ -65,11 +68,13 @@ export async function post(options: GitHubOptions): Promise<void> {
       formData.append("file", createReadStream(output));
       await imorphClient.uploadBuild(url, formData);
     }
+    await imorphClient.status(id, "UPDATE_BUILD_JOB", "SUCCESS");
   } catch (err) {
     if (err instanceof Error) {
       core.setFailed(err);
     } else {
       core.setFailed("Something went wrong");
     }
+    await imorphClient.status(id, "UPDATE_BUILD_JOB", "FAILED");
   }
 }
