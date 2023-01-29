@@ -10,6 +10,7 @@ export async function run(
   const buildDir = options.buildDir;
 
   console.log(process.env);
+  console.log(options.buildDir, options.imorphDomain, options.imorphSecret);
 
   if (!existsSync(buildDir)) {
     actions.setFailed(`${buildDir} not found`);

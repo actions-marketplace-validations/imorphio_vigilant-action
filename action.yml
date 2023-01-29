@@ -5,8 +5,17 @@ inputs:
   buildDir:
     required: false
     description: "Build dir to publish on imorph"
+    default: "/dist"
+  imorphSecret:
+    required: false
+    description: "Imorph secret"
+    default: ${{ secrets.IMORPH_SECRET }}
+  imorphDomain:
+    required: false
+    description: "Imorph domain"
+    default: ${{ secrets.IMORPH_DOMAIN }}
 runs:
   using: "node16"
-  pre: "dist/index.js"
-  main: "dist/index.js"
-  post: "dist/index.js"
+  pre: "lib/pre.js"
+  main: "lib/main.js"
+  post: "lib/post.js"

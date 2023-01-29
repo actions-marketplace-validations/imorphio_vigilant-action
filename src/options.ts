@@ -4,7 +4,15 @@ import { resolve } from "path";
 
 export class GitHubOptions {
   get buildDir(): string {
-    return process.cwd() + (core.getInput("buildDir") || "/dist");
+    return process.cwd() + core.getInput("buildDir");
+  }
+
+  get imorphSecret(): string {
+    return core.getInput("imorphSecret");
+  }
+
+  get imorphDomain(): string {
+    return core.getInput("imorphDomain");
   }
 }
 
