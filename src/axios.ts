@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import FormData from "form-data";
 import { GitHubOptions } from "./options";
 
 export class ImorphClient {
@@ -32,6 +33,17 @@ export class ImorphClient {
     const action = "AUTO_PUBLISH";
     const status = "SUCCESS";
     const { data } = await this.axios.post(url, { buildId, action, status });
+    return data;
+  }
+
+  async uploadSigned(id: string, size: number) {
+    const url = `/upload`;
+    const { data } = await this.axios.post(url, { id, size });
+    return data;
+  }
+
+  async uploadBuild(url: string, formData: FormData) {
+    const { data } = await this.axios.post(url, formData);
     return data;
   }
 }

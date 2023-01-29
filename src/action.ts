@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
-import { existsSync, statSync } from "fs";
+import FormData from "form-data";
+import { existsSync, statSync, createReadStream } from "fs";
 import { GitHubOptions } from "./options";
 import { Archiver } from "./archiver";
 import { ImorphClient } from "./axios";
@@ -53,7 +54,17 @@ export async function post(options: GitHubOptions): Promise<void> {
     const imorphClient = new ImorphClient(options);
     const id = core.getState("APP_BUILD_ID");
     const data = await imorphClient.status(id);
-    console.log(statSync(output), data);
+    if (data === "TRUE") {
+      const { size } = statSync(output);
+      const signed = await imorphClient.uploadSigned(id, size);
+      const formData = new FormData();
+      formData.append("Content-Type", "application/zip");
+      Object.entries(signed.fields).forEach(([k, v]) => {
+        formData.append(k, v);
+      });
+      formData.append("file", createReadStream(output));
+      await imorphClient.uploadBuild(signed.url, formData);
+    }
   } catch (err) {
     if (err instanceof Error) {
       core.setFailed(err);
