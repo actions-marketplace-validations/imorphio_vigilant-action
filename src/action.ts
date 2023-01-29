@@ -56,14 +56,14 @@ export async function post(options: GitHubOptions): Promise<void> {
     const data = await imorphClient.status(id);
     if (data === "TRUE") {
       const { size } = statSync(output);
-      const signed = await imorphClient.uploadSigned(id, size);
+      const { url, fields } = await imorphClient.uploadSigned(id, size);
       const formData = new FormData();
       formData.append("Content-Type", "application/zip");
-      Object.entries(signed.fields).forEach(([k, v]) => {
-        formData.append(k, v);
+      Object.entries(fields).forEach(([field, value]) => {
+        formData.append(field, value);
       });
       formData.append("file", createReadStream(output));
-      await imorphClient.uploadBuild(signed.url, formData);
+      await imorphClient.uploadBuild(url, formData);
     }
   } catch (err) {
     if (err instanceof Error) {

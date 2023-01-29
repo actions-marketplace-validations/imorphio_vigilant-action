@@ -43,7 +43,13 @@ export class ImorphClient {
   }
 
   async uploadBuild(url: string, formData: FormData) {
-    const { data } = await this.axios.post(url, formData);
-    return data;
+    return new Promise((resolve, reject) => {
+      formData.submit(url, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(data);
+      });
+    });
   }
 }
