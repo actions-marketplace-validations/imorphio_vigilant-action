@@ -14,6 +14,6 @@ inputs:
     description: "Imorph domain"
 runs:
   using: "node16"
-  pre: "lib/pre.js"
-  main: "lib/main.js"
-  post: "lib/post.js"
+  pre: "dist/pre.js"
+  main: "dist/main.js"
+  post: "dist/post.js"
