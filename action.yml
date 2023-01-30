@@ -12,6 +12,9 @@ inputs:
   imorphDomain:
     required: false
     description: "Imorph domain"
+branding:
+  icon: "upload-cloud"
+  color: "green"
 runs:
   using: "node16"
   pre: "dist/pre.js"
