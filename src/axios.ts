@@ -50,4 +50,10 @@ export class ImorphClient {
       });
     });
   }
+
+  async publish(id: string) {
+    const url = `/publish`;
+    const { data } = await this.axios.post(url, { id });
+    return data;
+  }
 }

@@ -67,6 +67,7 @@ export async function post(options: GitHubOptions): Promise<void> {
       });
       formData.append("file", createReadStream(output));
       await imorphClient.uploadBuild(url, formData);
+      await imorphClient.publish(id);
     }
     await imorphClient.status(id, "UPDATE_BUILD_JOB", "SUCCESS");
   } catch (err) {
