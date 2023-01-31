@@ -6,9 +6,9 @@ import { Archiver } from "./archiver";
 import { ImorphClient } from "./axios";
 
 export async function pre(options: GitHubOptions): Promise<void> {
+  const imorphClient = new ImorphClient(options);
   try {
     core.info("Imorph pre build setup...");
-    const imorphClient = new ImorphClient(options);
     const data = await imorphClient.create();
     core.saveState("APP_BUILD_ID", data.id);
   } catch (err) {
@@ -44,6 +44,7 @@ export async function post(options: GitHubOptions): Promise<void> {
 
     if (!existsSync(buildDir)) {
       core.setFailed(`${buildDir} not found`);
+      await imorphClient.status(id, "UPDATE_BUILD_JOB", "FAILED");
       return;
     }
 
@@ -51,6 +52,7 @@ export async function post(options: GitHubOptions): Promise<void> {
       core.setFailed(
         `${buildDir} your build directory should contain index.html in root`
       );
+      await imorphClient.status(id, "UPDATE_BUILD_JOB", "FAILED");
       return;
     }
 
